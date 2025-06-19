@@ -1,4 +1,6 @@
-package util;
+package br.edu.unoesc.jogodaforca.util;
+
+import br.edu.unoesc.jogodaforca.model.PalavraComDica;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ArquivoDePalavras {
-    private List<PalavraComDica> palavrasComDica; // Agora armazena PalavraComDica
+    private List<PalavraComDica> palavrasComDica;
     private Random random;
 
     public ArquivoDePalavras(String nomeArquivo) throws IOException {
@@ -18,13 +20,13 @@ public class ArquivoDePalavras {
     }
 
     private void carregarPalavras(String nomeArquivo) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(nomeArquivo))) {
+        // O caminho do arquivo agora deve ser relativo à raiz do projeto
+        try (BufferedReader reader = new BufferedReader(new FileReader("data/" + nomeArquivo))) {
             String linha;
             while ((linha = reader.readLine()) != null) {
-                // Processa cada linha para extrair palavra e dica
                 String trimmedLine = linha.trim();
                 if (!trimmedLine.isEmpty()) {
-                    String[] partes = trimmedLine.split(";"); // Divide pela vírgula e ponto
+                    String[] partes = trimmedLine.split(";");
                     if (partes.length == 2) {
                         String palavra = partes[0].trim();
                         String dica = partes[1].trim();
@@ -40,10 +42,9 @@ public class ArquivoDePalavras {
         }
     }
 
-    // Método para obter um objeto PalavraComDica aleatório
     public PalavraComDica getPalavraComDicaAleatoria() {
         if (palavrasComDica.isEmpty()) {
-            return null; // ou lançar uma exceção específica
+            return null;
         }
         return palavrasComDica.get(random.nextInt(palavrasComDica.size()));
     }
