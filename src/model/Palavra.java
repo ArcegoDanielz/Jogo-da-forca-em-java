@@ -1,3 +1,5 @@
+package br.edu.unoesc.jogodaforca.model;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,7 +53,6 @@ public class Palavra {
         return palavraSecreta;
     }
 
-    // --- NOVO MÉTODO ---
     public void adivinharTodasAsLetras() {
         for (char c : palavraSecreta.toCharArray()) {
             letrasCorretas.add(c);
