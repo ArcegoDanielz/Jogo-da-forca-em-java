@@ -1,3 +1,5 @@
+package br.edu.unoesc.jogodaforca.model;
+
 public class Jogador {
     private String nome;
     private int tentativasRestantes;
