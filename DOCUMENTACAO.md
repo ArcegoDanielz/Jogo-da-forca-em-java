@@ -7,42 +7,31 @@ Este documento contém os diagramas de engenharia de software que modelam o sist
 O diagrama a seguir descreve as principais interações do ator "Jogador" com o sistema.
 
 ```mermaid
-graph TD
+graph LR
+    Jogador --> Iniciar_Jogo[Iniciar Jogo]
+    
     subgraph Jogo da Forca
-        A(Iniciar Jogo)
-        B(Fazer Adivinhação)
-        C(Concluir Jogo)
-        D(Exibir Estado do Jogo)
-        E(Validar Letra)
-        F(Verificar Repetição)
-        G(Verificar Palavra)
-        H(Apresentar Tema)
-        I(Exibir Vitória)
-        J(Exibir Derrota)
-        K(Exibir Palavra Parcial)
-        L(Exibir Letras Erradas)
-        M(Exibir Tentativas Restantes)
-        N(Reiniciar Jogo)
-        O(Sair do Jogo)
-    end
+        Iniciar_Jogo -->|includes| Apresentar_Tema[Apresentar Tema]
+        Jogador --> Fazer_Adivinhacao[Fazer Adivinhação]
+        
+        Fazer_Adivinhacao -->|includes| Validar_Letra[Validar Letra]
+        Fazer_Adivinhacao -->|includes| Verificar_Repeticao[Verificar Repetição]
+        Fazer_Adivinhacao -->|includes| Verificar_Palavra[Verificar Palavra]
+        
+        Verificar_Palavra -->|includes| Exibir_Estado[Exibir Estado do Jogo]
+        Exibir_Estado -->|includes| Exibir_Palavra_Parcial[Exibir Palavra Parcial]
+        Exibir_Estado -->|includes| Exibir_Letras_Erradas[Exibir Letras Erradas]
+        Exibir_Estado -->|includes| Exibir_Tentativas[Exibir Tentativas Restantes]
 
-    Jogador --> A
-    A --o|includes| H
-    Jogador --|> B
-    B --o|includes| E
-    B --o|includes| F
-    B --o|includes| G
-    G --o|includes| D
-    D --o|includes| K
-    D --o|includes| L
-    D --o|includes| M
-    B --o|includes| C
-    C --|> I
-    C --|> J
-    I -.->>|extend| N
-    I -.->>|extend| O
-    J -.->>|extend| N
-    J -.->>|extend| O
+        Fazer_Adivinhacao -->|includes| Concluir_Jogo[Concluir Jogo]
+        Concluir_Jogo --> Exibir_Vitoria[Exibir Vitória]
+        Concluir_Jogo --> Exibir_Derrota[Exibir Derrota]
+
+        Exibir_Vitoria -->|extend| Reiniciar_Jogo[Reiniciar Jogo]
+        Exibir_Vitoria -->|extend| Sair_do_Jogo[Sair do Jogo]
+        Exibir_Derrota -->|extend| Reiniciar_Jogo
+        Exibir_Derrota -->|extend| Sair_do_Jogo
+    end
 
     classDef default fill:#f9f,stroke:#333,stroke-width:2px;
 ```
