@@ -8,6 +8,9 @@ O diagrama a seguir descreve as principais interações do ator "Jogador" com o 
 
 ```mermaid
 graph LR
+    %% Define um estilo para todos os nós: fundo cinza claro, borda escura.
+    style * fill:#e0e0e0,stroke:#333,stroke-width:2px;
+
     Jogador --> Iniciar_Jogo[Iniciar Jogo]
     
     subgraph Jogo da Forca
@@ -32,8 +35,6 @@ graph LR
         Exibir_Derrota -->|extend| Reiniciar_Jogo
         Exibir_Derrota -->|extend| Sair_do_Jogo
     end
-
-    classDef default fill:#f9f,stroke:#333,stroke-width:2px;
 ```
 
 ## 2. Diagrama de Classes
@@ -73,44 +74,44 @@ sequenceDiagram
     participant PalavraComTema
     participant GerenciadorJogo
 
-    Jogador->>+JogoDaForca: iniciarJogo() 
-    Note right of JogoDaForca: Orquestra a criação do jogo. 
+    Jogador->>+JogoDaForca: iniciarJogo()
+    Note right of JogoDaForca: Orquestra a criação do jogo.
 
-    JogoDaForca->>+PalavraComTema: new() 
-    JogoDaForca->>+GerenciadorJogo: new() 
+    JogoDaForca->>+PalavraComTema: new()
+    JogoDaForca->>+GerenciadorJogo: new()
     
-    JogoDaForca->>PalavraComTema: getTema() 
-    PalavraComTema-->>JogoDaForca: Tema da Palavra 
-    JogoDaForca->>GerenciadorJogo: getPalavraParcial() 
-    GerenciadorJogo-->>JogoDaForca: Palavra com '_' 
+    JogoDaForca->>PalavraComTema: getTema()
+    PalavraComTema-->>JogoDaForca: Tema da Palavra
+    JogoDaForca->>GerenciadorJogo: getPalavraParcial()
+    GerenciadorJogo-->>JogoDaForca: Palavra com '_'
     
-    JogoDaForca-->>-Jogador: exibirInterfaceInicial(tema, palavraParcial) 
+    JogoDaForca-->>-Jogador: exibirInterfaceInicial(tema, palavraParcial)
 
-    loop Fazer Adivinhação 
-        Jogador->>+JogoDaForca: adivinharLetra(letra) 
+    loop Fazer Adivinhação
+        Jogador->>+JogoDaForca: adivinharLetra(letra)
         
-        JogoDaForca->>+GerenciadorJogo: processarJogada(letra) 
-        GerenciadorJogo->>PalavraComTema: contemLetra(letra) 
-        PalavraComTema-->>GerenciadorJogo: (true/false) 
+        JogoDaForca->>+GerenciadorJogo: processarJogada(letra)
+        GerenciadorJogo->>PalavraComTema: contemLetra(letra)
+        PalavraComTema-->>GerenciadorJogo: (true/false)
         
-        alt Letra Correta 
-            GerenciadorJogo->>GerenciadorJogo: registrarAcerto() 
-        else Letra Errada ou Repetida 
-            GerenciadorJogo->>GerenciadorJogo: registrarErro() 
+        alt Letra Correta
+            GerenciadorJogo->>GerenciadorJogo: registrarAcerto()
+        else Letra Errada ou Repetida
+            GerenciadorJogo->>GerenciadorJogo: registrarErro()
         end
         
-        GerenciadorJogo-->>-JogoDaForca: estadoAtualizado 
+        GerenciadorJogo-->>-JogoDaForca: estadoAtualizado
         
-        JogoDaForca->>GerenciadorJogo: getEstadoJogo() 
-        GerenciadorJogo-->>JogoDaForca: (palavraParcial, letrasErradas, tentativas) 
+        JogoDaForca->>GerenciadorJogo: getEstadoJogo()
+        GerenciadorJogo-->>JogoDaForca: (palavraParcial, letrasErradas, tentativas)
         
-        JogoDaForca-->>-Jogador: exibirEstado(palavraParcial, letrasErradas, tentativas) 
+        JogoDaForca-->>-Jogador: exibirEstado(palavraParcial, letrasErradas, tentativas)
     end
 
-    alt Jogo Concluído 
-        JogoDaForca-->>Jogador: exibirVitoria() 
-    else Jogo Concluído 
-        JogoDaForca-->>Jogador: exibirDerrota() 
+    alt Jogo Concluído
+        JogoDaForca-->>Jogador: exibirVitoria()
+    else Jogo Concluído
+        JogoDaForca-->>Jogador: exibirDerrota()
     end
 ```
 
